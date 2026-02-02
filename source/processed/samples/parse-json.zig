@@ -43,18 +43,18 @@ test "Parse a complex JSON object" {
 
     const result = parsed.value.object; // This is the root of the JSON structure, and it is a map of all the keys of the JSON.
 
-    try std.testing.expectEqual(10, result.get("a_number").?.integer);
+    try std.testing.expectEqual(@as(i64, 10), result.get("a_number").?.integer);
 
     try std.testing.expectEqualSlices(u8, "hello", result.get("a_str").?.string);
 
-    try std.testing.expectEqual(3.14, result.get("a_float").?.float);
+    try std.testing.expectEqual(@as(f64, 3.14), result.get("a_float").?.float);
 
     try std.testing.expectEqual(true, result.get("a_bool").?.bool);
 
     try std.testing.expectEqual(.null, result.get("a_null").?);
 
     const number_array = result.get("a_number_array").?.array;
-    const expected_array = [_]i32{ 1, 2, 3 };
+    const expected_array = [_]i64{ 1, 2, 3 };
     try std.testing.expectEqual(expected_array.len, number_array.items.len);
     for (0..expected_array.len) |i| {
         try std.testing.expectEqual(expected_array[i], number_array.items[i].integer);
